@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <header class="welcome-header">
+      <h1 class="welcome-header__title">GAMEFLIX</h1>
+      <p class="welcome-header__text">회원가입</p>
+    </header>
+
+    <form id="login-form">
+      <input type="text" id=signUpEmail placeholder="Username" />
+      <input type="password" id=signUpPassword placeholder="비밀번호" />
+      <!-- <input type="submit" onclick="test()" value="회원가입" /> -->
+    </form>
+    <form>
+      <button type="submit" id=signUpButton> 회원가입 </button>
+    </form>
+
+    <!-- 파이어베이스 연결 script -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyDzeZ4xszEJSdNRmTgAAClv1Hbb79NdfQU",
+          authDomain: "easylogin-764fa.firebaseapp.com",
+          projectId: "easylogin-764fa",
+          storageBucket: "easylogin-764fa.appspot.com",
+          messagingSenderId: "885989949981",
+          appId: "1:885989949981:web:9f78e7d8bb2cdbe5d3bcf4",
+          measurementId: "G-71RGZCCRY6"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-auth.js";
+        
+        // id, password 잘 들어가는지 확인
+        document.getElementById('signUpButton').addEventListener('click', (event) => {
+            event.preventDefault()
+            const email = document.getElementById('signUpEmail').value
+            const password = document.getElementById('signUpPassword').value
+            const auth = getAuth();
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => { // 이 처리 끝나면, 로그인 페이지로 넘어가게 만들어야 함
+                    console.log(userCredential)
+                    alert("회원가입이 완료되었습니다.") 
+                    // Signed in
+                    const user = userCredential.user;
+                    // ...
+                })
+                .catch((error) => {
+                    console.log('error')
+                    alert("가입 불가능한 email 혹은 password입니다.") // error를 세분화해야 함. 중복 email인지 아니면 짧은 password인지
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // ..
+                });
+        })
+         
+
+
+        
+
+        console.log(app)
+      </script>
+    <script
+      src="https://kit.fontawesome.com/3dce86c0eb.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
